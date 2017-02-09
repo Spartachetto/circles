@@ -49,8 +49,8 @@ class DatabaseHandler {
 	 * @param string $uid ID of the user
 	 * @return array an array of numeric teams ids with their name:
 	 * 			[
-	 * 				['id' => 1, 'name' => 'team1'],
-	 * 				['id' => 2, 'name' => 'team2']
+	 * 				['id' => 1, 'name' => 'team1', 'owner' => 'admin', 'status' => 'owner'],
+	 * 				['id' => 2, 'name' => 'team2', 'owner' => 'admin', 'status' => 'owner']
 	 * 			]
 	 * @throws \Doctrine\DBAL\Exception\DriverException
 	 */
@@ -66,6 +66,8 @@ class DatabaseHandler {
 			$teams[] = [
 				'id' => (int)$row['id'],
 				'name' => $row['name'],
+				'owner' => $uid,
+				'status' => 'owner'
 			];
 		}
 		$cursor->closeCursor();

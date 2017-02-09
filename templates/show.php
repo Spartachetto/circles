@@ -23,7 +23,7 @@ script('teams', 'teams');
 
 ?>
 <style>
-	#loading_members {
+	#loading-members {
 		height: 50px;
 		margin: 0 auto;
 		padding: 20px;
@@ -48,27 +48,40 @@ script('teams', 'teams');
 	}
 </style>
 
-
-<div id="app-navigation">
+<script type="text/template" id="list-template">
 	<div class="navigation-element">
-		<label for="newTeam" class="hidden-visually"><?php p($l->t('New team')); ?></label>
-		<input id="newTeam" type="text" placeholder="<?php p($l->t('New team')); ?>" />
+		<label for="new-team" class="hidden-visually"><?php p($l->t('New team')); ?></label>
+		<input id="newteam" type="text" placeholder="<?php p($l->t('New team')); ?>" />
 	</div>
-	<ul class="teams"></ul>
-</div>
+	<ul class="teams">
+		{{#each teams}}
+		<li>
+			<a data-id="{{id}}">{{name}}</a>
+		</li>
+		{{/each}}
+	</ul>
+</script>
+
+<script type="text/template" id="member-list-template">
+	<label for="add-member" class="hidden-visually"><?php p($l->t('Add team member')); ?></label>
+	<input id="add-member" type="text" placeholder="<?php p($l->t('Add team member')); ?>" />
+
+	<ul class="memberList">
+		{{#each members}}
+		<li>{{user_id}} - {{status}}</li>
+		{{/each}}
+	</ul>
+</script>
+
+
+<div id="app-navigation"></div>
 
 <div id="app-content">
 	<div id="emptycontent">
 		<div class="icon-user"></div>
 		<h2><?php p($l->t('No team selected')); ?></h2>
 	</div>
+	<div id="container" class="hidden"></div>
 
-	<div id="container" class="hidden">
-		<label for="addMember" class="hidden-visually"><?php p($l->t('Add team member')); ?></label>
-		<input id="addMember" type="text" placeholder="<?php p($l->t('Add team member')); ?>" />
-
-		<ul class="memberList"></ul>
-	</div>
-
-	<div id="loading_members" class="icon-loading hidden"></div>
+	<div id="loading-members" class="icon-loading hidden"></div>
 </div>

@@ -164,11 +164,13 @@ class TeamsController extends Controller {
 		$myTeams = $this->dbHandler->getTeamsByAdmin($this->userId);
 		$otherTeams = $this->dbHandler->getTeamsByMember($this->userId);
 
+		$allTeams = array_merge($myTeams, $otherTeams);
+		usort($allTeams, function($a, $b) {
+			return strcmp($a['name'], $b['name']);
+		});
+
 		return new DataResponse(
-			[
-				'myTeams' => $myTeams,
-				'otherTeams' => $otherTeams,
-			],
+			$allTeams,
 			Http::STATUS_OK
 		);
 	}
@@ -196,9 +198,7 @@ class TeamsController extends Controller {
 		try {
 			$members = $this->dbHandler->getMembers($id);
 			return new DataResponse(
-				[
-					'members' => $members,
-				],
+				$members,
 				Http::STATUS_OK
 			);
 		} catch (TeamDoesNotExists $e){
